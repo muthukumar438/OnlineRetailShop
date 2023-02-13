@@ -11,7 +11,7 @@ class OrderService{
     public products = product
     public productService = new productService
 
-    public async getOrder(orderEntry : CreateDtoOrder) : Promise<iOrder> {
+    public async getOrder(orderEntry : string) : Promise<iOrder> {
         const order:iOrder = await this.orders.findOne({orderId: orderEntry}).where({ "orderStatus" : true})
         if (!order)
             throw new exceptions(404, "The order does not exist")
@@ -57,28 +57,28 @@ class OrderService{
         return updatedOrder
     }
 
-    public async deleteOrder(orderEntry : CreateDtoOrder) : Promise<iOrder> {
-        const deleteOrder : iOrder = await this.orders.findOne({orderId : orderEntry.orderId}).where({'orderStatus': true})
+    public async deleteOrder(id : string) : Promise<iOrder> {
+        const deletedOrder : iOrder = await this.orders.findOneAndDelete({orderId : id}).where({'orderStatus': true})
 
-        if ((!deleteOrder || deleteOrder === null))
+        if ((!deletedOrder || deletedOrder === null))
             throw new exceptions(404, 'the order is not exist')
-        await this.orders.findOneAndUpdate({orderId : orderEntry.orderId},{
+        await this.orders.findOneAndUpdate({orderId : deletedOrder.orderId},{
             orderStatus : false
         })
 
-        const pickedProduct = await this.products.findOne({productId : orderEntry.productId}).where({'productStatus': true})
+        const pickedProduct = await this.products.findOne({productId : deletedOrder.productId}).where({'productStatus': true})
 
         if (pickedProduct === null)
             throw new exceptions (404, 'the product does not exist')
             console.log(JSON.stringify(pickedProduct))
         
-        var remainingQuantity : Number = pickedProduct.quantityAvailable.valueOf() + deleteOrder.orderQuantity.valueOf()
+        let remainingQuantity : Number = pickedProduct.quantityAvailable.valueOf() + deletedOrder.orderQuantity.valueOf()
         pickedProduct.quantityAvailable = remainingQuantity
         console.log(JSON.stringify(pickedProduct))
 
-        await this.productService.updateProduct(pickedProduct)
+        // await this.productService.updateProduct(pickedProduct)
         
-        return deleteOrder
+        return deletedOrder
     }
  }
 

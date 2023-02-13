@@ -2,7 +2,7 @@ import { IsAlphanumeric, IsNumber, IsBoolean } from "class-validator"
 
 export class CreateDtoOrder {
     @IsAlphanumeric()
-    public orderId : string
+    public orderId!: string
     
     @IsAlphanumeric()
     public productId : string

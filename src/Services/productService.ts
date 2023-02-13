@@ -31,8 +31,7 @@ class productService{
     }
 
     public async updateProduct(product : CreateDtoProduct): Promise <iProduct> {
-        await this.products.findOneAndUpdate({
-            productId : product.productId,
+        await this.products.findOneAndUpdate({productId : product.productId},{
             productName : product.productName,
             productPrice: product.productPrice,
             quantityAvailable : product.quantityAvailable
@@ -41,7 +40,13 @@ class productService{
         return updatedProduct
     }
 
-    
+    public async deleteProduct(id : string): Promise<iProduct>{
+        const product : iProduct = await this.products.findOne({productId  : id}).where({'productStatus': true})
+        await this.products.findOneAndUpdate({productId : product.productId},{
+            productStatus : false
+        })
+        return product
+    }
 }
 
 export default productService

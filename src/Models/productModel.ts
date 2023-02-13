@@ -1,4 +1,3 @@
-// DAL - Data access layer for product
 import {model, Schema} from 'mongoose';
 import { iProduct } from '../Interfaces/iProduct'
 
@@ -27,5 +26,5 @@ var productSchema = new Schema({
     }
 })
 
-const mProduct = model<iProduct>('product', productSchema)
+const mProduct = model<iProduct>('iProduct', productSchema)
 export default mProduct

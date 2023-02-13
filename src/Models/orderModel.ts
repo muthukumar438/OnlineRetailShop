@@ -32,5 +32,5 @@ var orderSchema = new Schema({
     }
 })
 
-const mOrder = model<iOrder>('order', orderSchema)
+const mOrder = model<iOrder>('iOrder', orderSchema)
 export default mOrder

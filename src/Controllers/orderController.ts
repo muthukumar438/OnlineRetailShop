@@ -39,7 +39,7 @@ class orderController {
 
       public deleteOrder = async (req: Request, res: Response) => {
         try {
-            const order: iOrder = await this.orderService.deleteOrder(req.params.id);
+            const order: iOrder = await this.orderService.deleteOrder(req.params.id)
             res.status(200).json({ data: order, message: 'Order deleted successfully' });
         } catch (error) {
           console.log(error);
