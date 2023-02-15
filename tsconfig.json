@@ -13,7 +13,8 @@
     "pretty": true,
     "sourceMap": true,
     "declaration": true,
-    "outDir": "dist",
+    "outDir": "./build",
+    "rootDir": "src",
     "allowJs": true,
     "noEmit": false,
     "esModuleInterop": true,
@@ -31,5 +32,7 @@
       "@Routes/*": ["Routes/*"],
       "@Services/*": ["Services/*"],
     }
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.json", ".env"],
+  "exclude": ["node_modules"]
 }
