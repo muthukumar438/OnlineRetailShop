@@ -1,12 +1,18 @@
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
+import helmet from 'helmet';
+import hpp from 'hpp';
+import morgan from 'morgan';
+import { connect, set } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { NODE_ENV, PORT, ORIGIN, STATUS } from '@config';
-import { databaseConnection } from './database';
-import { iRoutes } from '@Interfaces/iRoutes';
-import express from 'express';
-import { connect, set } from 'mongoose';
-import orderRoute from './Routes/orderRoutes';
-import RouteProduct from './Routes/productRoutes';
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, STATUS } from '@config';
+import { databaseConnection } from './Database/database';
+import { iRoutes } from './Interfaces/iRoutes';
+import errorMiddleware from './Middlewares/errorMiddleware';
+import { logger, stream } from '@Utils/logger';
 
 class App {
   public app: express.Application;
@@ -19,13 +25,18 @@ class App {
     this.port = PORT || 3000;
 
     this.connectToDatabase();
-    this.startRoutes(routes);
-    this.startSwagger();
+    this.initializeMiddlewares();
+    this.initializeRoutes(routes);
+    this.initializeSwagger();
+    this.initializeErrorHandling();
   }
 
   public listen() {
     this.app.listen(this.port, () => {
-      console.log('Server connected')
+      logger.info(`=================================`);
+      logger.info(`======= ENV: ${this.env} =======`);
+      logger.info(`🚀 App listening on the port ${this.port}`);
+      logger.info(`=================================`);
     });
   }
 
@@ -37,22 +48,35 @@ class App {
     if (this.env !== 'production') {
       set('debug', true);
     }
+
+    //connect(dbConnection.url, dbConnection.options);
     connect(databaseConnection.url);
   }
 
-  private startRoutes(routes: iRoutes[]) {
+  private initializeMiddlewares() {
+    this.app.use(morgan(LOG_FORMAT, { stream }));
+    this.app.use(cors({ origin: ORIGIN, credentials: STATUS }));
+    this.app.use(hpp());
+    this.app.use(helmet());
+    this.app.use(compression());
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cookieParser());
+  }
+
+  private initializeRoutes(routes: iRoutes[]) {
     routes.forEach(route => {
       this.app.use('/', route.router);
     });
   }
 
-  private startSwagger() {
+  private initializeSwagger() {
     const options = {
       swaggerDefinition: {
         info: {
           title: 'REST API',
           version: '1.0.0',
-          description: 'Swagger docs',
+          description: 'Example docs',
         },
       },
       apis: ['swagger.yaml'],
@@ -61,8 +85,11 @@ class App {
     const specs = swaggerJSDoc(options);
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
   }
+
+  private initializeErrorHandling() {
+    this.app.use(errorMiddleware);
+  }
 }
 
-const app = new App([new orderRoute(), new RouteProduct()])
-
 export default App;
+``

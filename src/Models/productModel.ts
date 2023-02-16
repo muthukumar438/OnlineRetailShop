@@ -1,7 +1,7 @@
 import {model, Schema} from 'mongoose';
-import { iProduct } from '../Interfaces/iProduct'
+import { iProduct } from '@/Interfaces/iProduct';
 
-var productSchema = new Schema({
+var productSchema : Schema = new Schema({
     productId: {
         type: String,
         required: true,

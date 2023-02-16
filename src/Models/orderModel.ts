@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose'
-import { iOrder } from '../Interfaces/iOrder'
+import { iOrder } from '@/Interfaces/iOrder'
 
-var orderSchema = new Schema({
+var orderSchema : Schema= new Schema({
     orderId: {
         type: String,
         required: true,

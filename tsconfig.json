@@ -29,10 +29,12 @@
       "@Exceptions/*": ["Exceptions/*"],
       "@Interfaces/*": ["Interfaces/*"],
       "@Models/*": ["Models/*"],
+      "@Middlewares/*": ["Middlewares/*"],
       "@Routes/*": ["Routes/*"],
       "@Services/*": ["Services/*"],
+      "@Utils/*": ["Utils/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.json", ".env"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/http", "src/logs", "src/tests"]
 }
