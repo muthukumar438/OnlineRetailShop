@@ -1,12 +1,12 @@
-import productController from "@/Controllers/productController"
+import ProductController from "@/Controllers/productController"
 import { iRoutes } from "@/Interfaces/iRoutes"
 import { Router } from "express"
-import { CreateDtoProduct } from "@/dto/productDto"
+import { CreateDtoProduct } from "@/Dto/productDto"
 
 class RouteProduct implements iRoutes {
     path?: string = "/products"
     router: Router = Router()
-    productController = new productController()
+    productController = new ProductController()
 
     constructor(){
         this.startRoute()

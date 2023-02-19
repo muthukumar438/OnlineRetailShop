@@ -1,10 +1,10 @@
 import ordersController from "@/Controllers/orderController";
-import { CreateDtoOrder } from "@/dto/orderDto";
+import { CreateDtoOrder } from "@/Dto/orderDto";
 import { iRoutes } from "@/Interfaces/iRoutes";
+import validationMiddleware from "@/Middlewares/validationMiddleware";
 import { Router } from "express";
 
-
-class orderRoute implements iRoutes{
+class OrderRoute implements iRoutes{
     public path?: string = "/orders";
     public router: Router= Router();
     
@@ -15,11 +15,12 @@ class orderRoute implements iRoutes{
     }
     startRoute()
     {
-        this.router.get('${this.path}/:id', this.orderController.getOrder);
-        this.router.post('${this.path}/:id', this.orderController.createOrder);
-        this.router.put('${this.path}/:id', this.orderController.updateOrder);
-        this.router.delete('${this.path}/:id', this.orderController.deleteOrder);
+        this.router.get(`${this.path}`, this.orderController.getOrder);
+        this.router.get(`${this.path}/:id`, this.orderController.getAllOrders);
+        this.router.post(`${this.path}`,validationMiddleware(CreateDtoOrder,'body'), this.orderController.createOrder);
+        this.router.put(`${this.path}`,validationMiddleware(CreateDtoOrder,'body',true), this.orderController.updateOrder);
+        this.router.delete(`${this.path}/:id`, this.orderController.deleteOrder);
     }
 }
 
-export default orderRoute
+export default OrderRoute

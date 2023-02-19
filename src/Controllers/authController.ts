@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateDtoUser } from '@/dto/userDto';
+import { CreateDtoUser } from '@/Dto/userDto';
 import { RequestWithUser } from '@/Interfaces/iAuthenticate';
 import { iUser } from '@/Interfaces/iUser';
-import AuthService from '@/Services/authService';
+import AuthendicateService from '@/Services/authService';
 
 class AuthController {
-  public authService = new AuthService();
+  public authService = new AuthendicateService();
 
   public signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { SECRET_KEY } from '@config';
+import { SECRET_KEY } from '@/Config';
 import { exceptions } from '@/Exceptions/exceptions';
 import { DataStoredInToken, RequestWithUser} from "@Interfaces/iAuthenticate"
 import mUser from '@/Models/userModel';

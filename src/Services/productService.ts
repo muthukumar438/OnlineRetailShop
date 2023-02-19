@@ -1,11 +1,11 @@
 import { iProduct } from '@/Interfaces/iProduct'
-import product from '../Models/productModel'
+import mProduct from '../Models/productModel'
 import { exceptions } from '@/Exceptions/exceptions'
-import { CreateDtoProduct } from '../dto/productDto'
+import { CreateDtoProduct } from '../Dto/productDto'
 
-class productService{
+class ProductService{
 
-    public products = product
+    public products = mProduct
 
     public async getAllProducts(): Promise<iProduct[]>{
         const products = await this.products.find().where({'productStatus': true})
@@ -49,4 +49,4 @@ class productService{
     }
 }
 
-export default productService
+export default ProductService

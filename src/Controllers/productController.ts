@@ -1,10 +1,10 @@
-import { CreateDtoProduct } from '@/dto/productDto'
+import { CreateDtoProduct } from '@/Dto/productDto'
 import { iProduct } from '@/Interfaces/iProduct';
-import productService from '@/Services/productService';
+import ProductService from '@/Services/productService';
 import { Request, Response } from 'express';
 
-class productController{
-    public productService = new productService();
+class ProductController{
+    public productService = new ProductService();
 
     public getProducts = async (req: Request, res: Response) => {
         try {
@@ -55,4 +55,4 @@ class productController{
         }
 }
 
-export default productController;
+export default ProductController;

@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import AuthController from '@/Controllers/authController';
-import { CreateDtoUser } from '@/dto/userDto';
+import { CreateDtoUser } from '@/Dto/userDto';
 import { iRoutes } from '@/Interfaces/iRoutes';
 import authMiddleware from '@/Middlewares/authMiddleware';
 import validationMiddleware from '@/Middlewares/validationMiddleware';
 
-class AuthRoute implements iRoutes {
+class AuthenticateRoute implements iRoutes {
   public path = '/';
   public router = Router();
   public authController = new AuthController();
@@ -21,4 +21,4 @@ class AuthRoute implements iRoutes {
   }
 }
 
-export default AuthRoute;
+export default AuthenticateRoute;

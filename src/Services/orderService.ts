@@ -1,15 +1,20 @@
-import order from '../Models/orderModel'
-import product from '../Models/productModel'
+import mOrder from '../Models/orderModel'
+import mProduct from '../Models/productModel'
 import { iOrder } from '@/Interfaces/iOrder'
-import productService from './productService'
-import { CreateDtoOrder } from '../dto/orderDto'
+import ProductService from './productService'
+import { CreateDtoOrder } from '../Dto/orderDto'
 import { exceptions } from '@/Exceptions/exceptions'
 import { iProduct } from '@/Interfaces/iProduct'
 
 class OrderService{
-    public orders = order
-    public products = product
-    public productService = new productService
+    public orders = mOrder
+    public products = mProduct
+    public productService = new ProductService
+
+    public async FindAllOrders(): Promise<iOrder[]>{
+        const orders: iOrder[] = await this.orders.find();
+        return orders;
+    }
 
     public async getOrder(orderEntry : string) : Promise<iOrder> {
         const order:iOrder = await this.orders.findOne({orderId: orderEntry}).where({ "orderStatus" : true})

@@ -1,14 +1,14 @@
 import { hash, compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
-import { SECRET_KEY } from '@config';
-import { CreateDtoUser } from '@/dto/userDto';
+import { SECRET_KEY } from '@/Config';
+import { CreateDtoUser } from '@/Dto/userDto';
 import { exceptions } from '@/Exceptions/exceptions';
 import { DataStoredInToken, TokenData } from '@Interfaces/iAuthenticate'
 import { iUser } from '@/Interfaces/iUser';
 import mUser from '@/Models/userModel';
 import { isEmpty } from '@/Utils/util';
 
-class AuthService {
+class AuthendicateService {
   public users = mUser;
 
   public async signup(userData: CreateDtoUser): Promise<iUser> {
@@ -60,4 +60,4 @@ class AuthService {
   }
 }
 
-export default AuthService;
+export default AuthendicateService;

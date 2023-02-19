@@ -8,7 +8,7 @@ import morgan from 'morgan';
 import { connect, set } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, STATUS } from '@config';
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, STATUS } from '@/Config';
 import { databaseConnection } from './Database/database';
 import { iRoutes } from './Interfaces/iRoutes';
 import errorMiddleware from './Middlewares/errorMiddleware';
@@ -92,4 +92,3 @@ class App {
 }
 
 export default App;
-``

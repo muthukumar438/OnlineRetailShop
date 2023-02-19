@@ -1,4 +1,4 @@
-import { DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME,DB_PASSWORD, DB_CLUSTER } from '@config'
+import { DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME,DB_PASSWORD, DB_CLUSTER } from '@/Config'
 
 export const databaseConnection = {
     //url: `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`,
