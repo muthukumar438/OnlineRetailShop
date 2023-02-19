@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import request from 'supertest';
-import App from '@app'
-import { CreateDtoUser } from '@dto/userDto'
-import AuthenticateRoute from '@Routes/authRoute'
+import App from '../app';
+import { CreateDtoUser } from '../Dto/userDto';
+import AuthenticateRoute from '../Routes/authRoute';
 
 afterAll(async () => {
   await new Promise<void>(resolve => setTimeout(() => resolve(), 500));

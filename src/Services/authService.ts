@@ -1,9 +1,9 @@
 import { hash, compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
-import { SECRET_KEY } from '@/Config';
+import { SECRET_KEY } from '@/config';
 import { CreateDtoUser } from '@/Dto/userDto';
 import { exceptions } from '@/Exceptions/exceptions';
-import { DataStoredInToken, TokenData } from '@Interfaces/iAuthenticate'
+import { DataStoredInToken, TokenData } from '@Interfaces/iAuthenticate';
 import { iUser } from '@/Interfaces/iUser';
 import mUser from '@/Models/userModel';
 import { isEmpty } from '@/Utils/util';
@@ -12,7 +12,7 @@ class AuthendicateService {
   public users = mUser;
 
   public async signup(userData: CreateDtoUser): Promise<iUser> {
-    if (isEmpty(userData)) throw new exceptions(400, "userData is empty");
+    if (isEmpty(userData)) throw new exceptions(400, 'userData is empty');
 
     const findUser: iUser = await this.users.findOne({ email: userData.email });
     if (findUser) throw new exceptions(409, `This email ${userData.email} already exists`);
@@ -24,13 +24,13 @@ class AuthendicateService {
   }
 
   public async login(userData: CreateDtoUser): Promise<{ cookie: string; findUser: iUser }> {
-    if (isEmpty(userData)) throw new exceptions(400, "userData is empty");
+    if (isEmpty(userData)) throw new exceptions(400, 'userData is empty');
 
     const findUser: iUser = await this.users.findOne({ email: userData.email });
     if (!findUser) throw new exceptions(409, `This email ${userData.email} was not found`);
 
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
-    if (!isPasswordMatching) throw new exceptions(409, "Password is not matching");
+    if (!isPasswordMatching) throw new exceptions(409, 'Password is not matching');
 
     const tokenData = this.createToken(findUser);
     const cookie = this.createCookie(tokenData);
@@ -39,7 +39,7 @@ class AuthendicateService {
   }
 
   public async logout(userData: iUser): Promise<iUser> {
-    if (isEmpty(userData)) throw new exceptions (400, "userData is empty");
+    if (isEmpty(userData)) throw new exceptions(400, 'userData is empty');
 
     const findUser: iUser = await this.users.findOne({ email: userData.email, password: userData.password });
     if (!findUser) throw new exceptions(409, `This email ${userData.email} was not found`);

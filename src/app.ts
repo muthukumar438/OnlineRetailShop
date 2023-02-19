@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -8,8 +9,8 @@ import morgan from 'morgan';
 import { connect, set } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, STATUS } from '@/Config';
-import { databaseConnection } from './Database/database';
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, STATUS } from '@/config';
+import { databaseConnection } from './Database';
 import { iRoutes } from './Interfaces/iRoutes';
 import errorMiddleware from './Middlewares/errorMiddleware';
 import { logger, stream } from '@Utils/logger';
@@ -25,18 +26,16 @@ class App {
     this.port = PORT || 3000;
 
     this.connectToDatabase();
-    this.initializeMiddlewares();
-    this.initializeRoutes(routes);
-    this.initializeSwagger();
-    this.initializeErrorHandling();
+    this.startMiddlewares();
+    this.startRoutes(routes);
+    this.startSwagger();
+    this.startErrorHandling();
   }
 
   public listen() {
     this.app.listen(this.port, () => {
-      logger.info(`=================================`);
-      logger.info(`======= ENV: ${this.env} =======`);
-      logger.info(`🚀 App listening on the port ${this.port}`);
-      logger.info(`=================================`);
+      logger.info(`ENV: ${this.env}`);
+      logger.info(`Retailshop app listening on the port ${this.port}`);
     });
   }
 
@@ -53,7 +52,7 @@ class App {
     connect(databaseConnection.url);
   }
 
-  private initializeMiddlewares() {
+  private startMiddlewares() {
     this.app.use(morgan(LOG_FORMAT, { stream }));
     this.app.use(cors({ origin: ORIGIN, credentials: STATUS }));
     this.app.use(hpp());
@@ -64,13 +63,13 @@ class App {
     this.app.use(cookieParser());
   }
 
-  private initializeRoutes(routes: iRoutes[]) {
+  private startRoutes(routes: iRoutes[]) {
     routes.forEach(route => {
       this.app.use('/', route.router);
     });
   }
 
-  private initializeSwagger() {
+  private startSwagger() {
     const options = {
       swaggerDefinition: {
         info: {
@@ -84,11 +83,11 @@ class App {
 
     const specs = swaggerJSDoc(options);
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-  }
+  };
 
-  private initializeErrorHandling() {
+  private startErrorHandling() {
     this.app.use(errorMiddleware);
-  }
-}
+  };
+};
 
 export default App;
