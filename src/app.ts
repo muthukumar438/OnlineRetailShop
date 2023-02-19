@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
+import {connect, set } from 'mongoose';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-import helmet from 'helmet';
+import helmet from 'helmet'
 import hpp from 'hpp';
 import morgan from 'morgan';
-import { connect, set } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, STATUS } from '@/config';
